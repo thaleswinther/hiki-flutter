@@ -66,7 +66,7 @@ class ChatScreen extends StatelessWidget {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        icon: Icon(Icons.arrow_back, color: white),
+                        icon: Icon(Icons.arrow_back_ios, color: white),
                       ),
                       SvgPicture.asset(
                         'assets/images/avatar_icon.svg',
@@ -135,7 +135,7 @@ class ChatScreen extends StatelessWidget {
                             contentPadding: EdgeInsets.symmetric(horizontal: 16),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide.none, // Sem borda
+                              borderSide: BorderSide.none,
                             ),
                             suffixIcon: viewModel.prompt.isNotEmpty
                                 ? IconButton(
