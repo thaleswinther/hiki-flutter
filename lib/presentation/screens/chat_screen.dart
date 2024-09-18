@@ -141,6 +141,7 @@ class ChatScreen extends StatelessWidget {
                                 ? IconButton(
                               icon: const Icon(Icons.close, color: Colors.grey),
                               onPressed: () {
+                                viewModel.textController.clear();
                                 viewModel.updatePrompt('');
                               },
                             )
