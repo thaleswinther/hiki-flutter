@@ -41,9 +41,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mockito: ^5.4.4
+  build_runner: ^2.3.3
   floor: ^1.2.0
   floor_generator: ^1.2.0
-  build_runner: ^2.3.3
   provider: ^6.0.5
   get_it: ^7.2.0
 

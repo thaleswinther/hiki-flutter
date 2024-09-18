@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hiki_flutter/utils/Color.dart';
+import 'package:hiki_flutter/utils/color.dart';
 
 class OnboardingScreenOne extends StatelessWidget {
   final VoidCallback onNext;
