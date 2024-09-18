@@ -116,7 +116,9 @@ class ChatScreen extends StatelessWidget {
                 if (viewModel.isLoading)
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: LinearProgressIndicator(),
+                    child: LinearProgressIndicator(
+                      color: redLess
+                    ),
                   ),
                 Container(
                   padding: const EdgeInsets.all(20),
