@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hiki_flutter/utils/Color.dart';
+import 'package:hiki_flutter/utils/color.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/chat_viewmodel.dart';
 import '../../data/database/entity/chat.dart';
