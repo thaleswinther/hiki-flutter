@@ -19,7 +19,7 @@ class ChatViewModel extends ChangeNotifier {
 
     addPrompt(textController.text);
     prompt = '';
-    textController.clear(); // Limpar o campo após enviar
+    textController.clear();
     isLoading = true;
     notifyListeners();
 

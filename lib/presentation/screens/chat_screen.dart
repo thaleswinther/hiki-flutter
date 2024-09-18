@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hiki_flutter/utils/Color.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/chat_viewmodel.dart';
 import '../../data/database/entity/chat.dart';
 
 class ChatScreen extends StatelessWidget {
-  const ChatScreen({Key? key}) : super(key: key);
+  const ChatScreen({super.key});
 
   Widget _buildModelChatItem(Chat chat) {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        padding: EdgeInsets.all(16),
-        margin: EdgeInsets.only(right: 100, bottom: 16),
+        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.only(right: 100, bottom: 16),
         decoration: BoxDecoration(
-          color: Color(0xFFE4AB00),
+          color: primary,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
           chat.prompt,
-          style: TextStyle(color: Colors.white, fontSize: 17),
+          style: const TextStyle(color: white, fontSize: 17),
         ),
       ),
     );
@@ -29,15 +30,15 @@ class ChatScreen extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
-        padding: EdgeInsets.all(16),
-        margin: EdgeInsets.only(left: 100, bottom: 16),
+        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.only(left: 100, bottom: 16),
         decoration: BoxDecoration(
-          color: Color(0xFFE47444),
+          color: redLess,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
           chat.prompt,
-          style: TextStyle(color: Colors.white, fontSize: 17),
+          style: const TextStyle(color: white, fontSize: 17),
         ),
       ),
     );
@@ -48,107 +49,124 @@ class ChatScreen extends StatelessWidget {
     return Consumer<ChatViewModel>(
       builder: (context, viewModel, child) {
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Color(0xFFE4AB00),
-            title: Row(
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(96),
+            child: AppBar(
+              backgroundColor: primary,
+              automaticallyImplyLeading: false,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+              ),
+              flexibleSpace: Padding(
+                padding: const EdgeInsets.only(top: 32, bottom: 4),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        iconSize: 20,
+                        icon: const Icon(Icons.arrow_back_ios, color: white),
+                      ),
+                      SvgPicture.asset(
+                        'assets/images/avatar_icon.svg',
+                        width: 48,
+                        height: 48,
+                      ),
+                      const SizedBox(width: 8),
+                      const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Ana", style: TextStyle(color: black, fontSize: 20)),
+                          Text("Work", style: TextStyle(color: black, fontSize: 14)),
+                        ],
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        iconSize: 24,
+                        onPressed: () {},
+                        icon: const Icon(Icons.more_vert, color: white),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          body: SafeArea(
+            child: Column(
               children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.arrow_back, color: Colors.white),
+                Expanded(
+                  child: ListView.builder(
+                    reverse: true,
+                    itemCount: viewModel.chatList.length,
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    itemBuilder: (context, index) {
+                      final chat = viewModel.chatList[index];
+                      if (chat.isFromUser) {
+                        return _buildUserChatItem(chat);
+                      } else {
+                        return _buildModelChatItem(chat);
+                      }
+                    },
+                  ),
                 ),
-                SvgPicture.asset(
-                  'assets/images/avatar_icon.svg',
-                  width: 48,
-                  height: 48,
-                ),
-                SizedBox(width: 8),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Ana", style: TextStyle(color: Color(0xFF372900), fontSize: 20)),
-                    Text("Work", style: TextStyle(color: Color(0xFF372900), fontSize: 14)),
-                  ],
-                ),
-                Spacer(),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.more_vert, color: Colors.white),
+                if (viewModel.isLoading)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: LinearProgressIndicator(
+                      color: redLess
+                    ),
+                  ),
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: const BoxDecoration(
+                    color: primary,
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: viewModel.textController,
+                          onChanged: viewModel.updatePrompt,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: white,
+                            hintText: "Type your message here...",
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide.none,
+                            ),
+                            suffixIcon: viewModel.prompt.isNotEmpty
+                                ? IconButton(
+                              icon: const Icon(Icons.close, color: Colors.grey),
+                              onPressed: () {
+                                viewModel.textController.clear();
+                                viewModel.updatePrompt('');
+                              },
+                            )
+                                : null,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      IconButton(
+                        icon: const Icon(Icons.send, color: white, size: 36),
+                        onPressed: () {
+                          FocusScope.of(context).unfocus();
+                          viewModel.sendPrompt();
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-          body: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  reverse: true,
-                  itemCount: viewModel.chatList.length,
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  itemBuilder: (context, index) {
-                    final chat = viewModel.chatList[index];
-                    if (chat.isFromUser) {
-                      return _buildUserChatItem(chat);
-                    } else {
-                      return _buildModelChatItem(chat);
-                    }
-                  },
-                ),
-              ),
-              if (viewModel.isLoading)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: LinearProgressIndicator(),
-                ),
-              Container(
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Color(0xFFE4AB00),
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: viewModel.textController,
-                        onChanged: viewModel.updatePrompt,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Color(0xFFFFF7DF),
-                          hintText: "Type your message here...",
-                          contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide.none,
-                          ),
-                          suffixIcon: viewModel.prompt.isNotEmpty
-                              ? IconButton(
-                            icon: Icon(Icons.close, color: Colors.grey),
-                            onPressed: () {
-                              viewModel.updatePrompt('');
-                            },
-                          )
-                              : null,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 16),
-                    GestureDetector(
-                      onTap: viewModel.sendPrompt,
-                      child: Container(
-                        padding: EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Color(0xFFFFF7DF),
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        child: Icon(Icons.send, color: Colors.white, size: 24),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
           ),
         );
       },
