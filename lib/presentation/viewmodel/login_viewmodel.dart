@@ -32,7 +32,7 @@ class LoginViewModel extends ChangeNotifier {
     if (user != null && user.password == password) {
       isLoggedIn = true;
     } else {
-      error = user == null ? 'Invalid email' : 'Invalid password';
+      error = user == null ? 'Email inválido' : 'Senha inválida';
     }
 
     isLoading = false;
