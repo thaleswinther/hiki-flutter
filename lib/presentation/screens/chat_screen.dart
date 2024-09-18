@@ -53,6 +53,7 @@ class ChatScreen extends StatelessWidget {
             preferredSize: const Size.fromHeight(96),
             child: AppBar(
               backgroundColor: primary,
+              automaticallyImplyLeading: false,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
               ),

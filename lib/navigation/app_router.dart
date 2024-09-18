@@ -20,7 +20,7 @@ class AppRouter {
             create: (_) => getIt<LoginViewModel>(),
             child: LoginScreen(
               onLoginSuccess: () {
-                Navigator.pushReplacementNamed(_, '/onboarding1');
+                Navigator.pushNamed(_, '/onboarding1');
               },
               onRegisterClick: () {
                 Navigator.pushNamed(_, '/register');
@@ -46,7 +46,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => OnboardingScreenOne(
             onNext: () {
-              Navigator.pushReplacementNamed(_, '/onboarding2');
+              Navigator.pushNamed(_, '/onboarding2');
             },
           ),
         );
@@ -54,7 +54,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => OnboardingScreenTwo(
             onNext: () {
-              Navigator.pushReplacementNamed(_, '/onboarding3');
+              Navigator.pushNamed(_, '/onboarding3');
             },
           ),
         );
@@ -62,7 +62,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => OnboardingScreenThree(
             onStart: () {
-              Navigator.pushReplacementNamed(_, '/chat');
+              Navigator.pushNamed(_, '/chat');
             },
           ),
         );
