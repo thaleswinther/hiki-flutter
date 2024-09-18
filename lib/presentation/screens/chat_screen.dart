@@ -66,6 +66,7 @@ class ChatScreen extends StatelessWidget {
                         onPressed: () {
                           Navigator.pop(context);
                         },
+                        iconSize: 20,
                         icon: const Icon(Icons.arrow_back_ios, color: white),
                       ),
                       SvgPicture.asset(
@@ -84,6 +85,7 @@ class ChatScreen extends StatelessWidget {
                       ),
                       const Spacer(),
                       IconButton(
+                        iconSize: 24,
                         onPressed: () {},
                         icon: const Icon(Icons.more_vert, color: white),
                       ),
@@ -98,7 +100,7 @@ class ChatScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: ListView.builder(
-                    reverse: true, // Mensagens mais recentes no final
+                    reverse: true,
                     itemCount: viewModel.chatList.length,
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     itemBuilder: (context, index) {
@@ -152,7 +154,10 @@ class ChatScreen extends StatelessWidget {
                       const SizedBox(width: 16),
                       IconButton(
                         icon: const Icon(Icons.send, color: white, size: 36),
-                        onPressed: viewModel.sendPrompt,
+                        onPressed: () {
+                          FocusScope.of(context).unfocus();
+                          viewModel.sendPrompt();
+                        },
                       ),
                     ],
                   ),
