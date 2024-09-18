@@ -6,7 +6,7 @@ import '../viewmodel/chat_viewmodel.dart';
 import '../../data/database/entity/chat.dart';
 
 class ChatScreen extends StatelessWidget {
-  const ChatScreen({Key? key}) : super(key: key);
+  const ChatScreen({super.key});
 
   Widget _buildModelChatItem(Chat chat) {
     return Align(
@@ -49,100 +49,115 @@ class ChatScreen extends StatelessWidget {
     return Consumer<ChatViewModel>(
       builder: (context, viewModel, child) {
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: primary,
-            title: Row(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(96),
+            child: AppBar(
+              backgroundColor: primary,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
+              ),
+              flexibleSpace: Padding(
+                padding: const EdgeInsets.only(top: 32, bottom: 4),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.arrow_back, color: white),
+                      ),
+                      SvgPicture.asset(
+                        'assets/images/avatar_icon.svg',
+                        width: 48,
+                        height: 48,
+                      ),
+                      SizedBox(width: 8),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Ana", style: TextStyle(color: black, fontSize: 20)),
+                          Text("Work", style: TextStyle(color: black, fontSize: 14)),
+                        ],
+                      ),
+                      Spacer(),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.more_vert, color: white),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          body: SafeArea(
+            child: Column(
               children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.arrow_back, color: white),
+                Expanded(
+                  child: ListView.builder(
+                    reverse: true, // Mensagens mais recentes no final
+                    itemCount: viewModel.chatList.length,
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    itemBuilder: (context, index) {
+                      final chat = viewModel.chatList[index];
+                      if (chat.isFromUser) {
+                        return _buildUserChatItem(chat);
+                      } else {
+                        return _buildModelChatItem(chat);
+                      }
+                    },
+                  ),
                 ),
-                SvgPicture.asset(
-                  'assets/images/avatar_icon.svg',
-                  width: 48,
-                  height: 48,
-                ),
-                SizedBox(width: 8),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Ana", style: TextStyle(color: black, fontSize: 20)),
-                    Text("Work", style: TextStyle(color: black, fontSize: 14)),
-                  ],
-                ),
-                Spacer(),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.more_vert, color: white),
+                if (viewModel.isLoading)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: LinearProgressIndicator(),
+                  ),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: primary,
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: viewModel.textController,
+                          onChanged: viewModel.updatePrompt,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: white,
+                            hintText: "Type your message here...",
+                            contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide.none, // Sem borda
+                            ),
+                            suffixIcon: viewModel.prompt.isNotEmpty
+                                ? IconButton(
+                              icon: Icon(Icons.close, color: Colors.grey),
+                              onPressed: () {
+                                viewModel.updatePrompt('');
+                              },
+                            )
+                                : null,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                      IconButton(
+                        icon: Icon(Icons.send, color: white, size: 36),
+                        onPressed: viewModel.sendPrompt,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-          body: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  reverse: true,
-                  itemCount: viewModel.chatList.length,
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  itemBuilder: (context, index) {
-                    final chat = viewModel.chatList[index];
-                    if (chat.isFromUser) {
-                      return _buildUserChatItem(chat);
-                    } else {
-                      return _buildModelChatItem(chat);
-                    }
-                  },
-                ),
-              ),
-              if (viewModel.isLoading)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: LinearProgressIndicator(),
-                ),
-              Container(
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: primary,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: viewModel.textController,
-                        onChanged: viewModel.updatePrompt,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: white,
-                          hintText: "Type your message here...",
-                          contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide.none,
-                          ),
-                          suffixIcon: viewModel.prompt.isNotEmpty
-                              ? IconButton(
-                            icon: Icon(Icons.close, color: Colors.grey),
-                            onPressed: () {
-                              viewModel.updatePrompt('');
-                            },
-                          )
-                              : null,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 16),
-                    IconButton(
-                      icon: Icon(Icons.send, color: white, size: 36),
-                      onPressed: viewModel.sendPrompt,
-                    ),
-                  ],
-                ),
-              ),
-            ],
           ),
         );
       },
