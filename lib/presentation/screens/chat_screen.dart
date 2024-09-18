@@ -12,15 +12,15 @@ class ChatScreen extends StatelessWidget {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        padding: EdgeInsets.all(16),
-        margin: EdgeInsets.only(right: 100, bottom: 16),
+        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.only(right: 100, bottom: 16),
         decoration: BoxDecoration(
           color: primary,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
           chat.prompt,
-          style: TextStyle(color: white, fontSize: 17),
+          style: const TextStyle(color: white, fontSize: 17),
         ),
       ),
     );
@@ -30,15 +30,15 @@ class ChatScreen extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
-        padding: EdgeInsets.all(16),
-        margin: EdgeInsets.only(left: 100, bottom: 16),
+        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.only(left: 100, bottom: 16),
         decoration: BoxDecoration(
           color: redLess,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
           chat.prompt,
-          style: TextStyle(color: white, fontSize: 17),
+          style: const TextStyle(color: white, fontSize: 17),
         ),
       ),
     );
@@ -50,10 +50,10 @@ class ChatScreen extends StatelessWidget {
       builder: (context, viewModel, child) {
         return Scaffold(
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(96),
+            preferredSize: const Size.fromHeight(96),
             child: AppBar(
               backgroundColor: primary,
-              shape: RoundedRectangleBorder(
+              shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
               ),
               flexibleSpace: Padding(
@@ -66,15 +66,15 @@ class ChatScreen extends StatelessWidget {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        icon: Icon(Icons.arrow_back_ios, color: white),
+                        icon: const Icon(Icons.arrow_back_ios, color: white),
                       ),
                       SvgPicture.asset(
                         'assets/images/avatar_icon.svg',
                         width: 48,
                         height: 48,
                       ),
-                      SizedBox(width: 8),
-                      Column(
+                      const SizedBox(width: 8),
+                      const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -82,10 +82,10 @@ class ChatScreen extends StatelessWidget {
                           Text("Work", style: TextStyle(color: black, fontSize: 14)),
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       IconButton(
                         onPressed: () {},
-                        icon: Icon(Icons.more_vert, color: white),
+                        icon: const Icon(Icons.more_vert, color: white),
                       ),
                     ],
                   ),
@@ -100,7 +100,7 @@ class ChatScreen extends StatelessWidget {
                   child: ListView.builder(
                     reverse: true, // Mensagens mais recentes no final
                     itemCount: viewModel.chatList.length,
-                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     itemBuilder: (context, index) {
                       final chat = viewModel.chatList[index];
                       if (chat.isFromUser) {
@@ -112,13 +112,13 @@ class ChatScreen extends StatelessWidget {
                   ),
                 ),
                 if (viewModel.isLoading)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: LinearProgressIndicator(),
                   ),
                 Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.all(20),
+                  decoration: const BoxDecoration(
                     color: primary,
                     borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
                   ),
@@ -132,14 +132,14 @@ class ChatScreen extends StatelessWidget {
                             filled: true,
                             fillColor: white,
                             hintText: "Type your message here...",
-                            contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
                               borderSide: BorderSide.none,
                             ),
                             suffixIcon: viewModel.prompt.isNotEmpty
                                 ? IconButton(
-                              icon: Icon(Icons.close, color: Colors.grey),
+                              icon: const Icon(Icons.close, color: Colors.grey),
                               onPressed: () {
                                 viewModel.updatePrompt('');
                               },
@@ -148,9 +148,9 @@ class ChatScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(width: 16),
+                      const SizedBox(width: 16),
                       IconButton(
-                        icon: Icon(Icons.send, color: white, size: 36),
+                        icon: const Icon(Icons.send, color: white, size: 36),
                         onPressed: viewModel.sendPrompt,
                       ),
                     ],
