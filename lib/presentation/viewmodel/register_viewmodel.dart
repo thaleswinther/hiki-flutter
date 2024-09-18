@@ -34,7 +34,7 @@ class RegisterViewModel extends ChangeNotifier {
 
   Future<void> register() async {
     if (email.isEmpty || username.isEmpty || password.isEmpty) {
-      error = 'All fields are required';
+      error = 'Preencha todos os campos';
       notifyListeners();
       return;
     }
