@@ -23,6 +23,9 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
   String? _errorMessage;
 
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
@@ -55,6 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 20),
                       TextField(
+                        controller: _emailController,
                         onChanged: (value) => viewModel.updateEmail(value),
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
@@ -75,6 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 16),
                       TextField(
+                        controller: _passwordController,
                         onChanged: (value) => viewModel.updatePassword(value),
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
@@ -106,7 +111,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                            // Lógica de esquecimento de senha
                           },
                           child: Text(
                             loc.password_forgot,
@@ -122,6 +126,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           viewModel.login().then((_) {
                             if (viewModel.isLoggedIn) {
+                              _emailController.clear();
+                              _passwordController.clear();
                               widget.onLoginSuccess();
                             }
                           });
@@ -197,7 +203,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text(loc.register_account),
                           const SizedBox(width: 4),
                           GestureDetector(
-                            onTap: widget.onRegisterClick,
+                            onTap: () {
+                              _emailController.clear();
+                              _passwordController.clear();
+                              widget.onRegisterClick();
+                            },
                             child: Text(
                               loc.create_account,
                               style: const TextStyle(
@@ -224,5 +234,12 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }
