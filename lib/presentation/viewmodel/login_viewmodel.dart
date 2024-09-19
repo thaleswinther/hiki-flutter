@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/repository/user_repository.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final UserRepository userRepository;
@@ -24,7 +25,9 @@ class LoginViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> login() async {
+  Future<void> login(BuildContext context) async {
+    final loc = AppLocalizations.of(context)!;
+
     isLoading = true;
     notifyListeners();
 
@@ -32,7 +35,7 @@ class LoginViewModel extends ChangeNotifier {
     if (user != null && user.password == password) {
       isLoggedIn = true;
     } else {
-      error = user == null ? 'Email inválido' : 'Senha inválida';
+      error = user == null ? loc.invalid_email : loc.invalid_password;
     }
 
     isLoading = false;
