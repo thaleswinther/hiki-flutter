@@ -124,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ? const CircularProgressIndicator()
                           : ElevatedButton(
                         onPressed: () {
-                          viewModel.login().then((_) {
+                          viewModel.login(context).then((_) {
                             if (viewModel.isLoggedIn) {
                               _emailController.clear();
                               _passwordController.clear();

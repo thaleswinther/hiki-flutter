@@ -82,7 +82,9 @@ class RegisterScreen extends StatelessWidget {
                   viewModel.isLoading
                       ? const CircularProgressIndicator()
                       : ElevatedButton(
-                    onPressed: viewModel.register,
+                    onPressed: () {
+                      viewModel.register(context);
+                    },
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(120, 44),
                       backgroundColor: redLess,
