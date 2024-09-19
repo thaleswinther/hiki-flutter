@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hiki_flutter/utils/color.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Import necessário para a localização
 import '../viewmodel/register_viewmodel.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -16,6 +17,8 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var localizations = AppLocalizations.of(context)!; // Obtem as traduções do contexto
+
     return Consumer<RegisterViewModel>(
       builder: (context, viewModel, child) {
         if (viewModel.isRegistered) {
@@ -29,18 +32,18 @@ class RegisterScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(height: 104),
-                  const Text(
-                    'Bem-vindo',
-                    style: TextStyle(
+                  Text(
+                    localizations.welcome, // "Bem-vindo"
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.black,
                     ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 48),
-                  const Text(
-                    'Crie sua conta',
-                    style: TextStyle(
+                  Text(
+                    localizations.register_message, // "Crie sua conta"
+                    style: const TextStyle(
                       fontSize: 14,
                       color: Colors.black,
                     ),
@@ -48,19 +51,19 @@ class RegisterScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   _buildTextField(
-                    label: 'Email',
+                    label: localizations.email, // "Email"
                     onChanged: viewModel.updateEmail,
                     obscureText: false,
                   ),
                   const SizedBox(height: 16),
                   _buildTextField(
-                    label: 'Username',
+                    label: localizations.username, // "Username"
                     onChanged: viewModel.updateUsername,
                     obscureText: false,
                   ),
                   const SizedBox(height: 16),
                   _buildTextField(
-                    label: 'Senha',
+                    label: localizations.password, // "Senha"
                     onChanged: viewModel.updatePassword,
                     obscureText: true,
                   ),
@@ -84,12 +87,15 @@ class RegisterScreen extends StatelessWidget {
                       minimumSize: const Size(120, 44),
                       backgroundColor: redLess,
                     ),
-                    child: const Text('Criar', style: TextStyle(color: white)),
+                    child: Text(
+                      localizations.create, // "Criar"
+                      style: const TextStyle(color: white),
+                    ),
                   ),
                   const SizedBox(height: 16),
-                  const Row(
+                  Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                         child: Divider(
                           thickness: 1,
                           color: Colors.black,
@@ -98,13 +104,13 @@ class RegisterScreen extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
-                          'ou',
-                          style: TextStyle(color: Colors.black),
+                          localizations.or, // "ou"
+                          style: const TextStyle(color: Colors.black),
                         ),
                       ),
-                      Expanded(
+                      const Expanded(
                         child: Divider(
                           thickness: 1,
                           color: Colors.black,
@@ -131,7 +137,7 @@ class RegisterScreen extends StatelessWidget {
                                 height: 64,
                               ),
                             ),
-                            const Text('Facebook'),
+                            Text(localizations.facebook_description), // "Facebook"
                           ],
                         ),
                       ),
@@ -149,7 +155,7 @@ class RegisterScreen extends StatelessWidget {
                                 height: 64,
                               ),
                             ),
-                            const Text('Google'),
+                            Text(localizations.google_description), // "Google"
                           ],
                         ),
                       ),
@@ -159,15 +165,15 @@ class RegisterScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        'Já tem uma conta?',
-                        style: TextStyle(color: Colors.black),
+                      Text(
+                        localizations.login_account, // "Já tem uma conta?"
+                        style: const TextStyle(color: Colors.black),
                       ),
                       TextButton(
                         onPressed: onLoginClick,
-                        child: const Text(
-                          'Entre aqui',
-                          style: TextStyle(
+                        child: Text(
+                          localizations.click_here, // "Entre aqui"
+                          style: const TextStyle(
                             color: redLess,
                             decorationColor: redLess,
                             decoration: TextDecoration.underline,
@@ -205,10 +211,10 @@ class RegisterScreen extends StatelessWidget {
         cursorColor: Colors.black,
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: TextStyle(color: Colors.black),
+          labelStyle: const TextStyle(color: Colors.black),
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: black),
-            borderRadius: BorderRadius.circular(40)
+            borderRadius: BorderRadius.circular(40),
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(40),

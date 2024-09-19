@@ -4,11 +4,12 @@ import 'package:hiki_flutter/utils/color.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/chat_viewmodel.dart';
 import '../../data/database/entity/chat.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
 
-  Widget _buildModelChatItem(Chat chat) {
+  Widget _buildModelChatItem(Chat chat, String prompt) {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
@@ -19,14 +20,14 @@ class ChatScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
-          chat.prompt,
+          prompt,
           style: const TextStyle(color: white, fontSize: 17),
         ),
       ),
     );
   }
 
-  Widget _buildUserChatItem(Chat chat) {
+  Widget _buildUserChatItem(Chat chat, String prompt) {
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
@@ -37,7 +38,7 @@ class ChatScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
-          chat.prompt,
+          prompt,
           style: const TextStyle(color: white, fontSize: 17),
         ),
       ),
@@ -46,6 +47,8 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Consumer<ChatViewModel>(
       builder: (context, viewModel, child) {
         return Scaffold(
@@ -76,12 +79,12 @@ class ChatScreen extends StatelessWidget {
                         height: 48,
                       ),
                       const SizedBox(width: 8),
-                      const Column(
+                    Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Ana", style: TextStyle(color: black, fontSize: 20)),
-                          Text("Work", style: TextStyle(color: black, fontSize: 14)),
+                          Text("Ana"  , style: TextStyle(color: black, fontSize: 20)),
+                          Text(localizations.work, style: TextStyle(color: black, fontSize: 14)),
                         ],
                       ),
                       const Spacer(),
@@ -106,10 +109,11 @@ class ChatScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     itemBuilder: (context, index) {
                       final chat = viewModel.chatList[index];
+                      final prompt = chat.prompt; // Aqui pode ser necessário usar alguma lógica para tradução
                       if (chat.isFromUser) {
-                        return _buildUserChatItem(chat);
+                        return _buildUserChatItem(chat, prompt);
                       } else {
-                        return _buildModelChatItem(chat);
+                        return _buildModelChatItem(chat, prompt);
                       }
                     },
                   ),
@@ -118,7 +122,7 @@ class ChatScreen extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: LinearProgressIndicator(
-                      color: redLess
+                      color: redLess,
                     ),
                   ),
                 Container(
@@ -136,7 +140,7 @@ class ChatScreen extends StatelessWidget {
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: white,
-                            hintText: "Type your message here...",
+                            hintText: localizations.type_message_here,
                             contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
