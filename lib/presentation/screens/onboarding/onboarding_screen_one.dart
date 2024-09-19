@@ -42,7 +42,7 @@ class OnboardingScreenOne extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 32, vertical: 64),
           child: Text(
-            'Welcome to the App!',
+            'Aprenda a falar alemão com ajuda da Inteligência Artificial ',
             style: TextStyle(
               color: black,
               fontSize: 18,
@@ -113,7 +113,7 @@ class OnboardingScreenOne extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    'Welcome to the App!',
+                    'Aprenda a falar alemão com ajuda da Inteligência Artificial ',
                     style: TextStyle(
                       color: black,
                       fontSize: 18,
@@ -132,7 +132,7 @@ class OnboardingScreenOne extends StatelessWidget {
                     ),
                   ),
                   child: const Text(
-                    'Next',
+                    'Avançar',
                     style: TextStyle(color: white),
                   ),
                 ),
