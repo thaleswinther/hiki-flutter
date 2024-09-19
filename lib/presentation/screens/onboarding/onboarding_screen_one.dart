@@ -61,7 +61,7 @@ class OnboardingScreenOne extends StatelessWidget {
             ),
           ),
           child: const Text(
-            'Next',
+            'Avançar',
             style: TextStyle(color: white),
           ),
         ),
