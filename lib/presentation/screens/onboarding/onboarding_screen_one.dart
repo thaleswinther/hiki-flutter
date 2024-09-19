@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hiki_flutter/utils/color.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnboardingScreenOne extends StatelessWidget {
   final VoidCallback onNext;
@@ -11,17 +12,19 @@ class OnboardingScreenOne extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
 
+    final localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: Container(
         color: white,
         child: Center(
-          child: isPortrait ? _buildVerticalLayout(context) : _buildHorizontalLayout(context),
+          child: isPortrait ? _buildVerticalLayout(context, localizations) : _buildHorizontalLayout(context, localizations),
         ),
       ),
     );
   }
 
-  Widget _buildVerticalLayout(BuildContext context) {
+  Widget _buildVerticalLayout(BuildContext context, AppLocalizations localizations) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,11 +42,11 @@ class OnboardingScreenOne extends StatelessWidget {
           height: 80.36,
         ),
         const SizedBox(height: 32),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 64),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
           child: Text(
-            'Welcome to the App!',
-            style: TextStyle(
+            localizations.welcome_message,
+            style: const TextStyle(
               color: black,
               fontSize: 18,
             ),
@@ -60,9 +63,9 @@ class OnboardingScreenOne extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
           ),
-          child: const Text(
-            'Next',
-            style: TextStyle(color: white),
+          child: Text(
+            localizations.next,
+            style: const TextStyle(color: white),
           ),
         ),
         const SizedBox(height: 120),
@@ -75,7 +78,7 @@ class OnboardingScreenOne extends StatelessWidget {
     );
   }
 
-  Widget _buildHorizontalLayout(BuildContext context) {
+  Widget _buildHorizontalLayout(BuildContext context, AppLocalizations localizations) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32),
       child: Row(
@@ -110,11 +113,11 @@ class OnboardingScreenOne extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    'Welcome to the App!',
-                    style: TextStyle(
+                    localizations.welcome_message,
+                    style: const TextStyle(
                       color: black,
                       fontSize: 18,
                     ),
@@ -131,9 +134,9 @@ class OnboardingScreenOne extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: const Text(
-                    'Next',
-                    style: TextStyle(color: white),
+                  child: Text(
+                    localizations.next,
+                    style: const TextStyle(color: white),
                   ),
                 ),
                 const SizedBox(height: 24),
